@@ -38,7 +38,8 @@ class DQNAgent:
         target_q = rewards + gamma * next_q
 ```
 
-**Problème** : Le problème fondamental du DQN sans réseau cible réside dans un cercle vicieux d'auto-référence qui crée une instabilité catastrophique. Dans un DQN basique, le même réseau neuronal joue simultanément deux rôles contradictoires : il doit à la fois prédire la valeur Q(s,a) pour l'état actuel et calculer la cible y = r + γ · max Q(s',a') pour le prochain état. Cela signifie que chaque fois que vous mettez à jour les poids du réseau pour qu'il se rapproche d'une cible, cette même cible change immédiatement puisqu'elle dépend du réseau que vous venez de modifier. C'est comme essayer d'attraper votre propre ombre : chaque pas que vous faites déplace la cible que vous poursuivez. Concrètement, si le réseau surévalue légèrement Q(s',a') à un moment donné, cette surévaluation devient la nouvelle cible d'apprentissage, ce qui pousse le réseau à surévaluer encore plus lors de la prochaine mise à jour. Cette boucle de rétroaction positive amplifie les erreurs au lieu de les corriger, créant des oscillations qui s'amplifient progressivement. Les valeurs Q commencent à diverger de manière incontrôlable : elles peuvent exploser vers l'infini ou s'effondrer brutalement, exactement comme vous l'avez observé après l'épisode 850 dans votre entraînement. Le réseau finit par "courir après une cible en mouvement imprévisible", perdant toute capacité à apprendre une stratégie stable et cohérente.
+**Probleme** : Le problème fondamental du DQN sans réseau cible réside dans un cercle vicieux d'auto-référence qui crée une instabilité catastrophique. Dans un DQN basique, le même réseau neuronal joue simultanément deux rôles contradictoires : il doit à la fois prédire la valeur Q(s,a) pour l'état actuel et calculer la cible y = r + γ · max Q(s',a') pour le prochain état. Cela signifie que chaque fois que vous mettez à jour les poids du réseau pour qu'il se rapproche d'une cible, cette même cible change immédiatement puisqu'elle dépend du réseau que vous venez de modifier. C'est comme essayer d'attraper votre propre ombre : chaque pas que vous faites déplace la cible que vous poursuivez. Concrètement, si le réseau surévalue légèrement Q(s',a') à un moment donné, cette surévaluation devient la nouvelle cible d'apprentissage, ce qui pousse le réseau à surévaluer encore plus lors de la prochaine mise à jour. Cette boucle de rétroaction positive amplifie les erreurs au lieu de les corriger, créant des oscillations qui s'amplifient progressivement. Les valeurs Q commencent à diverger de manière incontrôlable : elles peuvent exploser vers l'infini ou s'effondrer brutalement, exactement comme vous l'avez observé après l'épisode 850 dans votre entraînement. Le réseau finit par "courir après une cible en mouvement imprévisible", perdant toute capacité à apprendre une stratégie stable et cohérente.
+
 ---
 
 ### 2. DQN avec Target Network
@@ -140,7 +141,7 @@ Cette soustraction de la moyenne force le réseau à apprendre :
 ## 📊 Analyse Comparative des Résultats
 
 ### Graphique 1 : DQN sans Target Network
-![Graphique DQN sans Target Network](./images/without_target.png.png)
+![Graphique DQN sans Target Network](./images/without_target.png)
 
 **Observations** :
 - ❌ **Convergence très lente** : Moyenne glissante stagne autour de 0 après 1000 épisodes
