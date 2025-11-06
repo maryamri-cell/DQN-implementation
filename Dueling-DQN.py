@@ -13,11 +13,6 @@ import matplotlib.colors as mcolors
 # Définir le device
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# ==============================================================================
-# 1. ENVIRONNEMENT GYMNASIUM : CustomGoalGridEnv (INCHANGÉ)
-# ==============================================================================
-# ... (La classe CustomGoalGridEnv est inchangée et est omise ici pour la concision) ...
-
 class CustomGoalGridEnv(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
 
@@ -115,9 +110,7 @@ class CustomGoalGridEnv(gym.Env):
         if self.fig:
             plt.close(self.fig)
 
-# ==============================================================================
-# 2. RÉSEAU NEURONAL DUELING DQN (NOUVELLE ARCHITECTURE)
-# ==============================================================================
+
 
 class DuelingDQN(nn.Module):
     def __init__(self, input_size, output_size):
@@ -159,9 +152,6 @@ class DuelingDQN(nn.Module):
         
         return Q
 
-# ==============================================================================
-# 3. AGENT DQN AVEC TARGET NETWORK (INCHANGÉ, car il fonctionne avec DuelingDQN)
-# ==============================================================================
 
 class DQNAgentWithTarget:
     def __init__(self, state_size, action_size, learning_rate=1e-3, gamma=0.95, epsilon=1.0, update_target_freq=200):
@@ -235,9 +225,6 @@ class DQNAgentWithTarget:
         if self.train_step_count % self.update_target_freq == 0:
             self.target_model.load_state_dict(self.model.state_dict())
 
-# ==============================================================================
-# 4. BOUCLE PRINCIPALE D'EXÉCUTION (INCHANGÉE)
-# ==============================================================================
 
 def plot_results(reward_history, epsilon_history, window=100):
     episodes = range(1, len(reward_history) + 1)
